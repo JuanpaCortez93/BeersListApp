@@ -1,9 +1,11 @@
 using BeersList.Data;
 using BeersList.Data.DTOs.BreweriesDTO;
+using BeersList.Data.Format_Validations.BreweriesFormatValidations;
 using BeersList.Data.MappingProfiles;
 using BeersList.Models;
 using BeersList.Repositories.BreweriesRepo;
 using BeersList.Services.BreweriesServs;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +24,10 @@ builder.Services.AddKeyedScoped<IBreweriesRepository, BreweriesRepository>("Brew
 
 //Add Mapping Profiles
 builder.Services.AddAutoMapper(typeof(BreweriesMappingProfile));
+
+//Add Format Validators
+builder.Services.AddScoped<IValidator<BreweriesPostDTO>, BreweriesPostFormatValidation>();
+builder.Services.AddScoped<IValidator<BreweriesPutDTO>, BreweriesPutFormatValidator>();
 
 var app = builder.Build();
 
